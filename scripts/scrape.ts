@@ -40,6 +40,7 @@ const getEssay = async (linkObj: { url: string; title: string }) => {
   const { title, url } = linkObj;
 
   let essay: PGEssay = {
+    author_name: "PG-essays",
     title: "",
     url: "",
     date: "",
@@ -92,6 +93,7 @@ const getEssay = async (linkObj: { url: string; title: string }) => {
       const trimmedContent = essayText.trim();
 
       essay = {
+        author_name: "PG-essays",
         title,
         url: fullLink,
         date: dateStr,
@@ -142,6 +144,7 @@ const chunkEssay = async (essay: PGEssay) => {
     const trimmedText = text.trim();
 
     const chunk: PGChunk = {
+      author_name: "PG-essays",
       essay_title: title,
       essay_url: url,
       essay_date: date,

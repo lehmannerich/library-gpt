@@ -18,7 +18,7 @@ const generateEmbeddings = async (essays: PGEssay[]) => {
     for (let j = 0; j < section.chunks.length; j++) {
       const chunk = section.chunks[j];
 
-      const { essay_title, essay_url, essay_date, essay_thanks, content, content_length, content_tokens } = chunk;
+      const { author_name, essay_title, essay_url, essay_date, essay_thanks, content, content_length, content_tokens } = chunk;
 
       const embeddingResponse = await openai.createEmbedding({
         model: "text-embedding-ada-002",
@@ -30,6 +30,7 @@ const generateEmbeddings = async (essays: PGEssay[]) => {
       const { data, error } = await supabase
         .from("pg")
         .insert({
+          author_name,
           essay_title,
           essay_url,
           essay_date,
