@@ -27,6 +27,12 @@ export default function Home() {
       table_key: "WBW-posts",
       url: "https://waitbutwhy.com/homepage",
     },
+    {
+      name: "Bundesamt für Statistik",
+      author: "Destatis",
+      table_key: "destatis",
+      url: "https://www.destatis.de/DE/Home/_inhalt.html",
+    },
   ];
 
   const [selected, setSelected] = useState<Book>(books[0]);
