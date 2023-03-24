@@ -20,7 +20,6 @@ const getLinks = async () => {
     const results = $(".s-press-search-results").find(".c-result");
 
     results.each((i, result) => {
-      console.log(i);
         const links = $(result).find("a");
         links.each((i, link) => {
           const url = $(link).attr("href");
@@ -71,12 +70,13 @@ const getEssay = async (linkObj: { url: string; title: string }) => {
       let cleanedText = text.replace(/\s+/g, " ");
       cleanedText = cleanedText.replace(/\.([a-zA-Z])/g, ". $1");
 
+
       const inputString = title;
-      const datePattern = /\d{1,2}\.\s*[a-zA-ZäöüÄÖÜß]+\s*\d{4}/;
-      const match = inputString.match(datePattern);
+      const match = inputString.match(/\d{1,2}\.\s*[a-zA-ZäöüÄÖÜß]+\s*\d{4}/);
       let dateStr = "";
         if (match) {
           dateStr = match[0];
+          // console.log(dateStr);
         }
         else {
         console.log("No date found for " + fullLink);
@@ -85,7 +85,6 @@ const getEssay = async (linkObj: { url: string; title: string }) => {
       let textWithoutDate = "";
 
       if (date) {
-        dateStr = date[0];
         textWithoutDate = cleanedText.replace(date[0], "");
       }
 
