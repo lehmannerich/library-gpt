@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "scrape": "tsx scripts/scrape.ts",
+    "scrape": "tsx scripts/scrape-bible.ts",
     "embed": "tsx scripts/embed.ts"
   },
   "dependencies": {
