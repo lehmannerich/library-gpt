@@ -4,40 +4,35 @@ import * as cheerio from "cheerio";
 import fs from "fs";
 import { encode } from "gpt-3-encoder";
 
-const BASE_URL = "https://www.destatis.de/";
+const BASE_URL = "http://www.paulgraham.com/";
 const CHUNK_SIZE = 200;
-const RESULT_SITE_START = 1;
-const RESULT_SITE_END = 1//149;
-
 
 const getLinks = async () => {
+  const html = await axios.get(`${BASE_URL}articles.html`);
+  const $ = cheerio.load(html.data);
+  const tables = $("table");
+
   const linksArr: { url: string; title: string }[] = [];
 
-  // push all links into array
-  for (let n = RESULT_SITE_START; n <= RESULT_SITE_END; n++) {
-    const html = await axios.get(`${BASE_URL}SiteGlobals/Forms/Suche/Presse/DE/Pressesuche_Formular.html?gtp=250538_list%253D${n}&resultsPerPage=30`);
-    const $ = cheerio.load(html.data);
-    const results = $(".s-press-search-results").find(".c-result");
+  tables.each((i, table) => {
+    if (i === 2) {
+      const links = $(table).find("a");
+      links.each((i, link) => {
+        const url = $(link).attr("href");
+        const title = $(link).text();
 
-    results.each((i, result) => {
-      console.log(i);
-        const links = $(result).find("a");
-        links.each((i, link) => {
-          const url = $(link).attr("href");
-          const title = $(link).find(".c-result__date").text().trim();
+        if (url && url.endsWith(".html")) {
+          const linkObj = {
+            url,
+            title
+          };
 
-          if (url && url.endsWith(".html")) {
-            const linkObj = {
-              url,
-              title
-            };
-            linksArr.push(linkObj);
-          }
-        });
+          linksArr.push(linkObj);
+        }
+      });
+    }
+  });
 
-    });
-
-  }
   return linksArr;
 };
 
@@ -59,29 +54,17 @@ const getEssay = async (linkObj: { url: string; title: string }) => {
   const fullLink = BASE_URL + url;
   const html = await axios.get(fullLink);
   const $ = cheerio.load(html.data);
-  const content = $("#content").remove(".l-content-wrapper").find("p");
+  const tables = $("table");
 
-      const text = $(content).text();
-
-      if (!text) {
-        console.log("No text found for " + fullLink);
-        return essay;
-      }
+  tables.each((i, table) => {
+    if (i === 1) {
+      const text = $(table).text();
 
       let cleanedText = text.replace(/\s+/g, " ");
       cleanedText = cleanedText.replace(/\.([a-zA-Z])/g, ". $1");
 
-      const inputString = title;
-      const datePattern = /\d{1,2}\.\s*[a-zA-ZäöüÄÖÜß]+\s*\d{4}/;
-      const match = inputString.match(datePattern);
+      const date = cleanedText.match(/([A-Z][a-z]+ [0-9]{4})/);
       let dateStr = "";
-        if (match) {
-          dateStr = match[0];
-        }
-        else {
-        console.log("No date found for " + fullLink);
-        }
-      const date = dateStr;
       let textWithoutDate = "";
 
       if (date) {
@@ -94,6 +77,7 @@ const getEssay = async (linkObj: { url: string; title: string }) => {
 
       const split = essayText.split(". ").filter((s) => s);
       const lastSentence = split[split.length - 1];
+
       if (lastSentence && lastSentence.includes("Thanks to")) {
         const thanksToSplit = lastSentence.split("Thanks to");
 
@@ -109,7 +93,7 @@ const getEssay = async (linkObj: { url: string; title: string }) => {
       const trimmedContent = essayText.trim();
 
       essay = {
-        author_name: "destatis",
+        author_name: "PG-essays",
         title,
         url: fullLink,
         date: dateStr,
@@ -119,8 +103,8 @@ const getEssay = async (linkObj: { url: string; title: string }) => {
         tokens: encode(trimmedContent).length,
         chunks: []
       };
-
-
+    }
+  });
 
   return essay;
 };
@@ -209,13 +193,13 @@ const chunkEssay = async (essay: PGEssay) => {
   }
 
   const json: PGJSON = {
-    current_date: "2023-03-24",
-    author: "Statistisches Bundesamt",
-    url: "https://www.destatis.de/",
+    current_date: "2023-03-01",
+    author: "Paul Graham",
+    url: "http://www.paulgraham.com/articles.html",
     length: essays.reduce((acc, essay) => acc + essay.length, 0),
     tokens: essays.reduce((acc, essay) => acc + essay.tokens, 0),
     essays
   };
 
-  fs.writeFileSync("scripts/destatis.json", JSON.stringify(json));
+  fs.writeFileSync("scripts/pg.json", JSON.stringify(json));
 })();
