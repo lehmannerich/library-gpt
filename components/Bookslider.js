@@ -4,7 +4,7 @@ export default function Bookslider({ books, selected, setSelected }) {
   }
   return (
     <div className="w-full py-2">
-      <ul className="flex gap-2 text-sm">
+      <ul className="flex gap-2 text-sm justify-end">
         {books.map((book, index) => (
           <li
             key={index}
