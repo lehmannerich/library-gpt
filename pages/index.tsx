@@ -5,6 +5,13 @@ import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-reac
 import endent from "endent";
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 
+interface Book {
+  name: string;
+  author: string;
+  table_key: string;
+  url: string;
+}
+
 export default function Home() {
 
   const books = [
@@ -22,7 +29,7 @@ export default function Home() {
     },
   ];
 
-  const [selected, setSelected] = useState<object>(books[0]);
+  const [selected, setSelected] = useState<Book>(books[0]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState<string>("");
   const [chunks, setChunks] = useState<PGChunk[]>([]);
@@ -45,7 +52,7 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ query, matches: matchCount, })
+      body: JSON.stringify({ query, matches: matchCount, table_key: selected.table_key })
     });
 
     if (!searchResponse.ok) {
@@ -115,7 +122,6 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col h-screen">
-      <Bookslider books={books} selected={selected} setSelected={setSelected}></Bookslider>
         <div className="flex-1 overflow-auto">
           <div className="mx-auto flex h-full w-full max-w-[750px] flex-col items-center px-3 pt-4 sm:pt-8">
 
@@ -138,6 +144,7 @@ export default function Home() {
                   />
                 </button>
               </div>
+              <Bookslider books={books} selected={selected} setSelected={setSelected}></Bookslider>
 
 
             {loading ? (
@@ -221,7 +228,7 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <div className="mt-6 text-center text-lg">{`AI-powered search for books & blogs.`}</div>
+              <div className="mt-6 text-center text-lg invisible">AI-powered search for books & blogs.</div>
             )}
           </div>
         </div>

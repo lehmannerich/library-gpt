@@ -6,10 +6,13 @@ export const config = {
 
 const handler = async (req: Request): Promise<Response> => {
   try {
-    const { query, matches } = (await req.json()) as {
+    const { query, matches, table_key } = (await req.json()) as {
       query: string;
       matches: number;
+      table_key: string;
     };
+
+    console.log(table_key);
 
     const input = query.replace(/\n/g, " ");
 
@@ -26,14 +29,17 @@ const handler = async (req: Request): Promise<Response> => {
     });
 
     const json = await res.json();
+    if (!json.data || !json.data[0] || !json.data[0].embedding) {
+      console.error('Invalid response from API:', json);
+      return new Response('Error', { status: 500 });
+    }
     const embedding = json.data[0].embedding;
 
     const { data: chunks, error } = await supabaseAdmin.rpc("pg_search", {
       query_embedding: embedding,
       similarity_threshold: 0.01,
       match_count: matches,
-      // selected_author: 'PG-essays'
-      selected_author: 'WBW-posts'
+      selected_author: table_key
     });
 
     if (error) {

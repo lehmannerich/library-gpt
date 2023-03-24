@@ -3,15 +3,14 @@ export default function Bookslider({ books, selected, setSelected }) {
     setSelected(book);
   }
   return (
-    <div className="text-center pt-16">
-      Books
-      <ul className="">
+    <div className="w-full py-2">
+      <ul className="flex gap-2 text-sm">
         {books.map((book, index) => (
           <li
             key={index}
             onClick={() => handleSelect(book)}
-            className={`cursor-pointer inline-block ${
-              book === selected ? "text-red-500" : ""
+            className={`cursor-pointer inline-block text-neutral-400 ${
+              book.table_key === selected.table_key ? "text-neutral-900" : ""
             }`}
           >
             {book.name}
