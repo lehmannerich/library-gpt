@@ -7,12 +7,10 @@ import { KeyboardEvent, useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
-
   const [query, setQuery] = useState<string>("");
   const [chunks, setChunks] = useState<PGChunk[]>([]);
   const [answer, setAnswer] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
   const [matchCount, setMatchCount] = useState<number>(5);
 
   const handleAnswer = async () => {
@@ -89,7 +87,6 @@ export default function Home() {
     }
   };
 
-
   useEffect(() => {
     if (matchCount > 10) {
       setMatchCount(10);
@@ -97,15 +94,6 @@ export default function Home() {
       setMatchCount(1);
     }
   }, [matchCount]);
-
-  useEffect(() => {
-    const PG_MATCH_COUNT = localStorage.getItem("PG_MATCH_COUNT");
-    if (PG_MATCH_COUNT) {
-      setMatchCount(parseInt(PG_MATCH_COUNT));
-    }
-
-    inputRef.current?.focus();
-  }, []);
 
   return (
     <>

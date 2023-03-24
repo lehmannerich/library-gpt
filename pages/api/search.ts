@@ -32,7 +32,8 @@ const handler = async (req: Request): Promise<Response> => {
       query_embedding: embedding,
       similarity_threshold: 0.01,
       match_count: matches,
-      selected_author: 'PG-essays'
+      // selected_author: 'PG-essays'
+      selected_author: 'WBW-posts'
     });
 
     if (error) {
