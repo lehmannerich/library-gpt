@@ -18,7 +18,7 @@ const generateEmbeddings = async (essays: PGEssay[]) => {
     for (let j = 0; j < section.chunks.length; j++) {
       const chunk = section.chunks[j];
 
-      const { author_name, essay_title, essay_url, essay_date, essay_thanks, content, content_length, content_tokens } = chunk;
+      const { essay_title, essay_url, essay_date, essay_thanks, content, content_length, content_tokens } = chunk;
 
       const embeddingResponse = await openai.createEmbedding({
         model: "text-embedding-ada-002",
@@ -30,7 +30,7 @@ const generateEmbeddings = async (essays: PGEssay[]) => {
       const { data, error } = await supabase
         .from("pg")
         .insert({
-          author_name,
+          author_name: "destatis",
           essay_title,
           essay_url,
           essay_date,
@@ -45,7 +45,7 @@ const generateEmbeddings = async (essays: PGEssay[]) => {
       if (error) {
         console.log("error", error);
       } else {
-        console.log("saved", i, j);
+        console.log("saved:", i, j, "total:",i*j);
       }
 
       await new Promise((resolve) => setTimeout(resolve, 200));
@@ -54,6 +54,6 @@ const generateEmbeddings = async (essays: PGEssay[]) => {
 };
 
 (async () => {
-  const book: PGJSON = JSON.parse(fs.readFileSync("scripts/pg.json", "utf8"));
+  const book: PGJSON = JSON.parse(fs.readFileSync("scripts/destatis.json", "utf8"));
   await generateEmbeddings(book.essays);
 })();

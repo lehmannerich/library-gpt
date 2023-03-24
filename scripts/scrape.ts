@@ -7,7 +7,7 @@ import { encode } from "gpt-3-encoder";
 const BASE_URL = "https://www.destatis.de/";
 const CHUNK_SIZE = 200;
 const RESULT_SITE_START = 1;
-const RESULT_SITE_END = 1//149;
+const RESULT_SITE_END = 149;
 
 
 const getLinks = async () => {
@@ -15,6 +15,7 @@ const getLinks = async () => {
 
   // push all links into array
   for (let n = RESULT_SITE_START; n <= RESULT_SITE_END; n++) {
+    console.log("Getting links from page " + n);
     const html = await axios.get(`${BASE_URL}SiteGlobals/Forms/Suche/Presse/DE/Pressesuche_Formular.html?gtp=250538_list%253D${n}&resultsPerPage=30`);
     const $ = cheerio.load(html.data);
     const results = $(".s-press-search-results").find(".c-result");
@@ -25,11 +26,12 @@ const getLinks = async () => {
           const url = $(link).attr("href");
           const title = $(link).find(".c-result__date").text().trim();
 
-          if (url && url.endsWith(".html")) {
+          if (url && url.endsWith(".html") && url.startsWith("DE/Presse") ) {
             const linkObj = {
               url,
               title
             };
+            console.log(url);
             linksArr.push(linkObj);
           }
         });
@@ -76,7 +78,7 @@ const getEssay = async (linkObj: { url: string; title: string }) => {
       let dateStr = "";
         if (match) {
           dateStr = match[0];
-          // console.log(dateStr);
+          console.log(dateStr);
         }
         else {
         console.log("No date found for " + fullLink);
@@ -143,6 +145,10 @@ const chunkEssay = async (essay: PGEssay) => {
         chunkText = "";
       }
 
+      if (!sentence) {
+        continue;
+      }
+
       if (sentence[sentence.length - 1].match(/[a-z0-9]/i)) {
         chunkText += sentence + ". ";
       } else {
@@ -199,12 +205,15 @@ const chunkEssay = async (essay: PGEssay) => {
 (async () => {
   const links = await getLinks();
 
+  // return
+
   let essays = [];
 
   for (let i = 0; i < links.length; i++) {
     const essay = await getEssay(links[i]);
     const chunkedEssay = await chunkEssay(essay);
     essays.push(chunkedEssay);
+    console.log("Finished essay " + (i + 1) + " of " + links.length);
   }
 
   const json: PGJSON = {
