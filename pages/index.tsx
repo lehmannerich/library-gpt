@@ -1,11 +1,28 @@
 import { Answer } from "@/components/Answer/Answer";
-import { Footer } from "@/components/Footer";
+import Bookslider from "@/components/Bookslider";
 import { PGChunk } from "@/types";
 import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-react";
 import endent from "endent";
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 
 export default function Home() {
+
+  const books = [
+    {
+      name: "PG Essays",
+      author: "Paul Graham",
+      table_key: "PG-essays",
+      url: "http://www.paulgraham.com/articles.html",
+    },
+    {
+      name: "Wait But Why",
+      author: "Tim Urban",
+      table_key: "WBW-posts",
+      url: "https://waitbutwhy.com/homepage",
+    },
+  ];
+
+  const [selected, setSelected] = useState<object>(books[0]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState<string>("");
   const [chunks, setChunks] = useState<PGChunk[]>([]);
@@ -98,6 +115,7 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col h-screen">
+      <Bookslider books={books} selected={selected} setSelected={setSelected}></Bookslider>
         <div className="flex-1 overflow-auto">
           <div className="mx-auto flex h-full w-full max-w-[750px] flex-col items-center px-3 pt-4 sm:pt-8">
 
@@ -107,7 +125,7 @@ export default function Home() {
                   ref={inputRef}
                   className="h-12 w-full rounded border border-zinc-600 pr-12 pl-11 focus:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 sm:h-16 sm:py-2 sm:pr-16 sm:pl-16 sm:text-lg"
                   type="text"
-                  placeholder="How do I start a startup?"
+                  placeholder="Ask me anything!"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -207,7 +225,6 @@ export default function Home() {
             )}
           </div>
         </div>
-        <Footer />
       </div>
     </>
   );
