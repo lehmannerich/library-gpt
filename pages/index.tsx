@@ -39,6 +39,12 @@ export default function Home() {
       table_key: "new-testament",
       url: "https://www.die-bibel.de/bibeln/online-bibeln/lesen/LU17/GEN.1/1.-Mose-1",
     },
+    {
+      name: "Altes Testament",
+      author: "Lutherbibel 2017",
+      table_key: "old-testament",
+      url: "https://www.die-bibel.de/bibeln/online-bibeln/lesen/LU17/GEN.1/1.-Mose-1",
+    },
   ];
 
   const [selected, setSelected] = useState<Book>(books[0]);
@@ -47,7 +53,7 @@ export default function Home() {
   const [chunks, setChunks] = useState<PGChunk[]>([]);
   const [answer, setAnswer] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [matchCount, setMatchCount] = useState<number>(5);
+  const [matchCount, setMatchCount] = useState<number>(6);
 
   const handleAnswer = async () => {
     if (!query) {
