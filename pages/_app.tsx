@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps<{}>) {
           />
         <meta
           name="description"
-          content={`AI-powered search and chat for Paul Graham's essays.`}
+          content={`AI-powered search and chat for Books and Essays.`}
         />
       </Head>
     <main className={inter.className}>
