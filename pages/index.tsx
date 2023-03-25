@@ -28,6 +28,12 @@ export default function Home() {
       url: "https://waitbutwhy.com/homepage",
     },
     {
+      name: "Our World in Data",
+      author: "Max Roser",
+      table_key: "ourworldindata",
+      url: "https://ourworldindata.org/",
+    },
+    {
       name: "Bundesamt für Statistik",
       author: "Destatis",
       table_key: "destatis",
@@ -53,7 +59,7 @@ export default function Home() {
   const [chunks, setChunks] = useState<PGChunk[]>([]);
   const [answer, setAnswer] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [matchCount, setMatchCount] = useState<number>(6);
+  const [matchCount, setMatchCount] = useState<number>(4);
 
   const handleAnswer = async () => {
     if (!query) {

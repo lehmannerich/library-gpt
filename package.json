@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "scrape": "tsx scripts/scrape-bible.ts",
-    "embed": "tsx scripts/embed-old-testament.ts"
+    "scrape": "tsx scripts/scrape-ourworldindata.ts",
+    "embed": "tsx scripts/embed-ourworldindata.ts"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.13",
