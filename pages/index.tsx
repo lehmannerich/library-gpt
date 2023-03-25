@@ -83,7 +83,7 @@ export default function Home() {
     setChunks(results);
 
     const prompt = endent`
-    Use the following passages to provide an answer to the query: "${query}"
+    Use the following passages to provide an answer to the query. Respond IN THE SAME LANGUAGE AS THE QUERY: ${query}
 
     ${results?.map((d: any) => d.content).join("\n\n")}
     `;

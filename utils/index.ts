@@ -26,8 +26,8 @@ export const OpenAIStream = async (prompt: string) => {
           content: prompt
         }
       ],
-      max_tokens: 150,
-      temperature: 0.0,
+      max_tokens: 250,
+      temperature: 0.05,
       stream: true
     })
   });
