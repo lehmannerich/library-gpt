@@ -33,6 +33,12 @@ export default function Home() {
       table_key: "destatis",
       url: "https://www.destatis.de/DE/Home/_inhalt.html",
     },
+    {
+      name: "Neues Testament",
+      author: "Lutherbibel 2017",
+      table_key: "new-testament",
+      url: "https://www.die-bibel.de/bibeln/online-bibeln/lesen/LU17/GEN.1/1.-Mose-1",
+    },
   ];
 
   const [selected, setSelected] = useState<Book>(books[0]);
