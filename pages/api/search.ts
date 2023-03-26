@@ -4,6 +4,7 @@ export const config = {
   runtime: "edge"
 };
 
+
 const handler = async (req: Request): Promise<Response> => {
   try {
     const { query, matches, table_key } = (await req.json()) as {
@@ -39,7 +40,7 @@ const handler = async (req: Request): Promise<Response> => {
       query_embedding: embedding,
       similarity_threshold: 0.2,
       match_count: matches,
-      selected_author: table_key
+      selected_author: table_key,
     });
 
     if (error) {
