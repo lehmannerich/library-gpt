@@ -16,12 +16,6 @@ export default function Home() {
 
   const books = [
     {
-      name: "Search All",
-      author: "All Books & Essays",
-      table_key: "",
-      url: "",
-    },
-    {
       name: "PG Essays",
       author: "Paul Graham",
       table_key: "PG-essays",
@@ -57,9 +51,15 @@ export default function Home() {
       table_key: "old-testament",
       url: "https://www.die-bibel.de/bibeln/online-bibeln/lesen/LU17/GEN.1/1.-Mose-1",
     },
+    {
+      name: "Search All",
+      author: "All Books & Essays",
+      table_key: "",
+      url: "",
+    },
   ];
 
-  const [selected, setSelected] = useState<Book>(books[0]);
+  const [selected, setSelected] = useState<Book>(books[books.length - 1]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState<string>("");
   const [chunks, setChunks] = useState<PGChunk[]>([]);
