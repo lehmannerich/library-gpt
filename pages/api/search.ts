@@ -36,12 +36,25 @@ const handler = async (req: Request): Promise<Response> => {
     }
     const embedding = json.data[0].embedding;
 
-    const { data: chunks, error } = await supabaseAdmin.rpc("pg_search", {
+    interface Params {
+      query_embedding: any;
+      similarity_threshold: number;
+      match_count: number;
+      selected_author?: string;
+    }
+
+    let params: Params = {
       query_embedding: embedding,
       similarity_threshold: 0.2,
-      match_count: matches,
-      selected_author: table_key,
-    });
+      match_count: matches
+    };
+
+    if (table_key !== "") {
+      params.selected_author = table_key;
+    }
+
+    const { data: chunks, error } = await supabaseAdmin.rpc("pg_search", params);
+
 
     if (error) {
       console.error(error);

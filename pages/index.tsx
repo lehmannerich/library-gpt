@@ -16,6 +16,12 @@ export default function Home() {
 
   const books = [
     {
+      name: "Search All",
+      author: "All Books & Essays",
+      table_key: "",
+      url: "",
+    },
+    {
       name: "PG Essays",
       author: "Paul Graham",
       table_key: "PG-essays",
