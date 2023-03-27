@@ -20,36 +20,42 @@ export default function Home() {
       author: "Paul Graham",
       table_key: "PG-essays",
       url: "http://www.paulgraham.com/articles.html",
+      cover: "https://place-hold.it/300x400"
     },
     {
       name: "Wait But Why",
       author: "Tim Urban",
       table_key: "WBW-posts",
       url: "https://waitbutwhy.com/homepage",
+      cover: "https://place-hold.it/300x400"
     },
     {
       name: "Our World in Data",
       author: "Max Roser",
       table_key: "ourworldindata",
       url: "https://ourworldindata.org/",
+      cover: "https://place-hold.it/300x400"
     },
     {
       name: "Bundesamt für Statistik",
       author: "Destatis",
       table_key: "destatis",
       url: "https://www.destatis.de/DE/Home/_inhalt.html",
+      cover: "https://place-hold.it/300x400"
     },
     {
       name: "Neues Testament",
       author: "Lutherbibel 2017",
       table_key: "new-testament",
       url: "https://www.die-bibel.de/bibeln/online-bibeln/lesen/LU17/GEN.1/1.-Mose-1",
+      cover: "https://place-hold.it/300x400"
     },
     {
       name: "Altes Testament",
       author: "Lutherbibel 2017",
       table_key: "old-testament",
       url: "https://www.die-bibel.de/bibeln/online-bibeln/lesen/LU17/GEN.1/1.-Mose-1",
+      cover: "https://place-hold.it/300x400"
     },
     {
       name: "Search All",
