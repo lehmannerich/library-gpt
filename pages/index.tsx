@@ -1,4 +1,5 @@
 import { Answer } from "@/components/Answer/Answer";
+import Bookslibrary from "@/components/Bookslibrary";
 import Bookslider from "@/components/Bookslider";
 import { PGChunk } from "@/types";
 import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-react";
@@ -20,48 +21,49 @@ export default function Home() {
       author: "Paul Graham",
       table_key: "PG-essays",
       url: "http://www.paulgraham.com/articles.html",
-      cover: "https://place-hold.it/300x400"
+      cover: "/pg.png"
     },
     {
       name: "Wait But Why",
       author: "Tim Urban",
       table_key: "WBW-posts",
       url: "https://waitbutwhy.com/homepage",
-      cover: "https://place-hold.it/300x400"
+      cover: "https://place-hold.it/144x192"
     },
     {
       name: "Our World in Data",
       author: "Max Roser",
       table_key: "ourworldindata",
       url: "https://ourworldindata.org/",
-      cover: "https://place-hold.it/300x400"
+      cover: "https://place-hold.it/144x192"
     },
     {
       name: "Bundesamt für Statistik",
       author: "Destatis",
       table_key: "destatis",
       url: "https://www.destatis.de/DE/Home/_inhalt.html",
-      cover: "https://place-hold.it/300x400"
+      cover: "https://place-hold.it/144x192"
     },
     {
       name: "Neues Testament",
       author: "Lutherbibel 2017",
       table_key: "new-testament",
       url: "https://www.die-bibel.de/bibeln/online-bibeln/lesen/LU17/GEN.1/1.-Mose-1",
-      cover: "https://place-hold.it/300x400"
+      cover: "/neues.png"
     },
     {
       name: "Altes Testament",
       author: "Lutherbibel 2017",
       table_key: "old-testament",
       url: "https://www.die-bibel.de/bibeln/online-bibeln/lesen/LU17/GEN.1/1.-Mose-1",
-      cover: "https://place-hold.it/300x400"
+      cover: "/altes.png"
     },
     {
       name: "Search All",
       author: "All Books & Essays",
       table_key: "",
       url: "",
+      cover: "https://place-hold.it/144x192"
     },
   ];
 
@@ -160,6 +162,7 @@ export default function Home() {
       <div className="flex flex-col h-screen">
         <div className="flex-1 overflow-auto">
           <div className="mx-auto flex h-full w-full max-w-[750px] flex-col items-center px-3 pt-4 sm:pt-8">
+          <Bookslibrary books={books} selected={selected} setSelected={setSelected}></Bookslibrary>
 
               <div className="relative w-full mt-4">
                 <IconSearch className="absolute top-3 w-10 left-1 h-6 rounded-full opacity-50 sm:left-3 sm:top-4 sm:h-8" />
