@@ -1,5 +1,4 @@
 import { Answer } from "@/components/Answer/Answer";
-import Bookslibrary from "@/components/Bookslibrary";
 import Bookslider from "@/components/Bookslider";
 import { PGChunk } from "@/types";
 import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-react";
@@ -14,56 +13,55 @@ interface Book {
 }
 
 export default function Home() {
-
   const books = [
     {
       name: "PG Essays",
       author: "Paul Graham",
       table_key: "PG-essays",
       url: "http://www.paulgraham.com/articles.html",
-      cover: "/pg.png"
+      cover: "/pg.png",
     },
     {
       name: "Wait But Why",
       author: "Tim Urban",
       table_key: "WBW-posts",
       url: "https://waitbutwhy.com/homepage",
-      cover: "https://place-hold.it/144x192"
+      cover: "https://place-hold.it/144x192",
     },
     {
       name: "Our World in Data",
       author: "Max Roser",
       table_key: "ourworldindata",
       url: "https://ourworldindata.org/",
-      cover: "https://place-hold.it/144x192"
+      cover: "https://place-hold.it/144x192",
     },
     {
       name: "Bundesamt für Statistik",
       author: "Destatis",
       table_key: "destatis",
       url: "https://www.destatis.de/DE/Home/_inhalt.html",
-      cover: "https://place-hold.it/144x192"
+      cover: "https://place-hold.it/144x192",
     },
     {
       name: "Neues Testament",
       author: "Lutherbibel 2017",
       table_key: "new-testament",
       url: "https://www.die-bibel.de/bibeln/online-bibeln/lesen/LU17/GEN.1/1.-Mose-1",
-      cover: "/neues.png"
+      cover: "/neues.png",
     },
     {
       name: "Altes Testament",
       author: "Lutherbibel 2017",
       table_key: "old-testament",
       url: "https://www.die-bibel.de/bibeln/online-bibeln/lesen/LU17/GEN.1/1.-Mose-1",
-      cover: "/altes.png"
+      cover: "/altes.png",
     },
     {
       name: "Search All",
       author: "All Books & Essays",
       table_key: "",
       url: "",
-      cover: "https://place-hold.it/144x192"
+      cover: "https://place-hold.it/144x192",
     },
   ];
 
@@ -88,9 +86,9 @@ export default function Home() {
     const searchResponse = await fetch("/api/search", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query, matches: matchCount, table_key: selected.table_key })
+      body: JSON.stringify({ query, matches: matchCount, table_key: selected.table_key }),
     });
 
     if (!searchResponse.ok) {
@@ -111,9 +109,9 @@ export default function Home() {
     const answerResponse = await fetch("/api/answer", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ prompt })
+      body: JSON.stringify({ prompt }),
     });
 
     if (!answerResponse.ok) {
@@ -145,7 +143,7 @@ export default function Home() {
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-        handleAnswer();
+      handleAnswer();
     }
   };
 
@@ -162,44 +160,45 @@ export default function Home() {
       <div className="flex flex-col h-screen">
         <div className="flex-1 overflow-auto">
           <div className="mx-auto flex h-full w-full max-w-[750px] flex-col items-center px-3 pt-4 sm:pt-8">
-          <Bookslibrary books={books} selected={selected} setSelected={setSelected}></Bookslibrary>
+            {/* <Bookslibrary books={books} selected={selected} setSelected={setSelected}></Bookslibrary> */}
 
-              <div className="relative w-full mt-4">
-                <IconSearch className="absolute top-3 w-10 left-1 h-6 rounded-full opacity-50 sm:left-3 sm:top-4 sm:h-8" />
-                <input
-                  ref={inputRef}
-                  className="h-12 w-full rounded border border-zinc-600 pr-12 pl-11 focus:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 sm:h-16 sm:py-2 sm:pr-16 sm:pl-16 sm:text-lg"
-                  type="text"
-                  placeholder="Ask me anything!"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onKeyDown={handleKeyDown}
+            <div className="relative w-full mt-4">
+              <IconSearch className="absolute top-3 w-10 left-1 h-6 rounded-full opacity-50 sm:left-3 sm:top-4 sm:h-8" />
+              <input
+                ref={inputRef}
+                className="h-12 w-full rounded border border-zinc-600 pr-12 pl-11 focus:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 sm:h-16 sm:py-2 sm:pr-16 sm:pl-16 sm:text-lg"
+                type="text"
+                placeholder="Ask me anything!"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+
+              <button>
+                <IconArrowRight
+                  onClick={handleAnswer}
+                  className="absolute right-2 top-2.5 h-7 w-7 rounded bg-blue-500 p-1 hover:cursor-pointer hover:bg-blue-600 sm:right-3 sm:top-3 sm:h-10 sm:w-10 text-white"
                 />
-
-                <button>
-                  <IconArrowRight
-                    onClick={handleAnswer}
-                    className="absolute right-2 top-2.5 h-7 w-7 rounded bg-blue-500 p-1 hover:cursor-pointer hover:bg-blue-600 sm:right-3 sm:top-3 sm:h-10 sm:w-10 text-white"
-                  />
-                </button>
-              </div>
-              <Bookslider books={books} selected={selected} setSelected={setSelected}></Bookslider>
-
+              </button>
+            </div>
+            <Bookslider
+              books={books}
+              selected={selected}
+              setSelected={setSelected}
+            ></Bookslider>
 
             {loading ? (
               <div className="mt-6 w-full">
-
-                  <div>
-                    <div className="font-bold text-2xl">Answer</div>
-                    <div className="animate-pulse mt-2">
-                      <div className="h-4 bg-gray-300 rounded"></div>
-                      <div className="h-4 bg-gray-300 rounded mt-2"></div>
-                      <div className="h-4 bg-gray-300 rounded mt-2"></div>
-                      <div className="h-4 bg-gray-300 rounded mt-2"></div>
-                      <div className="h-4 bg-gray-300 rounded mt-2"></div>
-                    </div>
+                <div>
+                  <div className="font-bold text-2xl">Answer</div>
+                  <div className="animate-pulse mt-2">
+                    <div className="h-4 bg-gray-300 rounded"></div>
+                    <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                    <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                    <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                    <div className="h-4 bg-gray-300 rounded mt-2"></div>
                   </div>
-
+                </div>
 
                 <div className="font-bold text-2xl mt-6">Passages</div>
                 <div className="animate-pulse mt-2">
@@ -224,7 +223,9 @@ export default function Home() {
                         <div className="flex justify-between">
                           <div>
                             <div className="font-bold text-xl">{chunk.essay_title}</div>
-                            <div className="mt-1 font-bold text-sm">{chunk.essay_date}</div>
+                            <div className="mt-1 font-bold text-sm">
+                              {chunk.essay_date}
+                            </div>
                           </div>
                           <a
                             className="hover:opacity-50 ml-2"
@@ -267,7 +268,9 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <div className="mt-6 text-center text-lg invisible">AI-powered search for books & blogs.</div>
+              <div className="mt-6 text-center text-lg invisible">
+                AI-powered search for books & blogs.
+              </div>
             )}
           </div>
         </div>
